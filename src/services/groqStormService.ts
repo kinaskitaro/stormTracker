@@ -119,7 +119,6 @@ async function searchIBTrACSCSV(name: string, year?: string): Promise<CSVStormDa
 
     return matchedData?.points.length ? matchedData : null
   } catch (error) {
-    console.error('Error reading IBTrACS CSV:', error)
     return null
   }
 }
@@ -221,7 +220,6 @@ async function searchBSTFile(name: string, year?: string): Promise<BSTStormData 
 
     return matchedStorm?.points.length ? matchedStorm : null
   } catch (error) {
-    console.error('Error reading BST file:', error)
     return null
   }
 }
@@ -458,7 +456,6 @@ Return ONLY a valid JSON object:
       points: enhancedPoints
     }
   } catch (error) {
-    console.error('Error enhancing storm with AI:', error)
     return storm
   }
 }
@@ -490,7 +487,6 @@ export async function getAvailableStorms(): Promise<{ name: string; year: string
       }
     }
   } catch (error) {
-    console.error('Error getting CSV storms:', error)
   }
   
   try {
@@ -514,7 +510,6 @@ export async function getAvailableStorms(): Promise<{ name: string; year: string
       }
     }
   } catch (error) {
-    console.error('Error getting BST storms:', error)
   }
   
   return storms.sort((a, b) => b.year.localeCompare(a.year)).slice(0, 100)
@@ -545,11 +540,9 @@ export async function searchStormWithAI(query: string): Promise<Storm | null> {
           points: pointsWithData
         }
         storm = createStormFromCSVData(filteredData)
-        console.log(`Using IBTrACS: ${pointsWithData.length}/${csvData.points.length} points with data`)
       }
     }
   } catch (error) {
-    console.error('Error searching IBTrACS CSV:', error)
   }
 
   // Step 2: Try BST file for map display (only if IBTrACS not found or no data)
@@ -558,10 +551,8 @@ export async function searchStormWithAI(query: string): Promise<Storm | null> {
       const bstData = await searchBSTFile(stormName, stormYear)
       if (bstData) {
         storm = createStormFromBSTData(bstData)
-        console.log('Using BST file for storm data')
       }
     } catch (error) {
-      console.error('Error searching BST file:', error)
     }
   }
 

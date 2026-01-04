@@ -46,13 +46,11 @@ app.get('/api/translate', async (req, res) => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('LibreTranslate API error:', data);
       return res.status(response.status).json(data);
     }
 
     res.json({ translation: data.translatedText });
   } catch (error) {
-    console.error('Translation proxy error:', error);
     res.status(500).json({ error: 'Internal server error', details: error.message });
   }
 });
@@ -88,7 +86,6 @@ app.post('/api/openai', async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    console.error('Proxy server error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

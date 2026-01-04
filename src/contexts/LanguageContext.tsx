@@ -31,7 +31,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
           const translated = await translateStorm(originalStorm, language)
           setTranslatedStorm(translated)
         } catch (error) {
-          console.error('Translation error:', error)
           setTranslatedStorm(originalStorm)
         } finally {
           setIsTranslating(false)

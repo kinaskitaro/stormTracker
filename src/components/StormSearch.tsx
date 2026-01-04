@@ -30,10 +30,7 @@ export function StormSearch({ onStormSelect }: StormSearchProps) {
   }
 
   const handleAISearch = async () => {
-    console.log('handleAISearch called!')
-    
     if (!query.trim()) {
-      console.log('Query is empty, returning')
       return
     }
 
@@ -43,10 +40,7 @@ export function StormSearch({ onStormSelect }: StormSearchProps) {
 
     try {
       const searchQuery = year.trim() ? `${query} ${year}` : query
-      console.log('Starting AI search for:', searchQuery)
-      
       const storm = await searchStormWithAI(searchQuery)
-      console.log('Search result:', storm)
 
       if (storm) {
         handleSelect(storm)
@@ -54,7 +48,6 @@ export function StormSearch({ onStormSelect }: StormSearchProps) {
         throw new Error('No storm found. Try a different search term.')
       }
     } catch (err) {
-      console.error('AI search error:', err)
       const errorMessage = err instanceof Error ? err.message : 'Failed to search with AI'
       setError(errorMessage)
       setResults([])
@@ -110,7 +103,6 @@ export function StormSearch({ onStormSelect }: StormSearchProps) {
         <button
           type="button"
           onClick={(e) => {
-            console.log('Button clicked!', { query, year, isLoading })
             e.preventDefault()
             e.stopPropagation()
             handleAISearch()

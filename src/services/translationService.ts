@@ -29,7 +29,6 @@ async function translateText(text: string, targetLang: 'vi' | 'en', retries = 3)
   const apiKey = import.meta.env.VITE_GROQ_API_KEY
 
   if (!apiKey) {
-    console.warn('Groq API key not found, skipping translation')
     return text
   }
 
@@ -42,7 +41,6 @@ async function translateText(text: string, targetLang: 'vi' | 'en', retries = 3)
 
   if (consecutiveFailures > 0) {
     const penaltyDelay = consecutiveFailures * 2000
-    console.log(`Waiting ${penaltyDelay}ms due to previous failures`)
     await delay(penaltyDelay)
   }
 
@@ -87,27 +85,23 @@ Return ONLY the translated text, no explanations or additional formatting.`
           }
         }
 
-        console.warn(`Rate limited, waiting ${waitTime}ms before retry ${attempt + 1}/${retries}`)
         await delay(waitTime)
         continue
       }
 
       if (!response.ok) {
-        console.error('Translation API error:', response.status)
         return text
       }
 
       const data = await response.json()
 
       if (data.error) {
-        console.error('Translation API error:', data.error.message)
         return text
       }
 
       const translatedText = data.choices?.[0]?.message?.content?.trim()
 
       if (!translatedText) {
-        console.error('Translation API returned empty response')
         return text
       }
 
@@ -121,7 +115,6 @@ Return ONLY the translated text, no explanations or additional formatting.`
       return translatedText
     } catch (error) {
       if (attempt === retries) {
-        console.error('Translation error after retries:', error)
         return text
       }
       await delay(1000)
