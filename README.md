@@ -259,9 +259,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💬 Support
 
-- **Email**: support@stormtracker.dev
-- **Discord**: Join our community server
-- **Twitter**: [@StormTrackerApp](https://twitter.com/StormTrackerApp)
+- **Email**: 
+- **Discord**: 
+- **Twitter**: 
 
 ---
 
