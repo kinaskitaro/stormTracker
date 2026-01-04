@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  font-family: 'Nunito', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --sky-blue: #87CEEB;
+  --ocean-blue: #4A90D9;
+  --sunny-yellow: #FFD93D;
+  --cloud-white: #F8F9FA;
+  --grass-green: #6BCB77;
+  --coral-pink: #FF6B6B;
+  --purple: #9B59B6;
+  --orange: #FF9F43;
+  --text-dark: #2C3E50;
+  --text-light: #34495E;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #87CEEB 0%, #4A90D9 100%);
+  color: var(--text-dark);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+button {
+  border-radius: 20px;
+  border: 3px solid transparent;
+  padding: 0.8em 1.5em;
+  font-size: 1em;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--ocean-blue);
+  outline-offset: 2px;
+}
+
+input, select {
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 15px;
+  border: 3px solid var(--ocean-blue);
+  padding: 0.7em 1em;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--grass-green);
+  box-shadow: 0 0 0 4px rgba(107, 203, 119, 0.2);
+}
+
+/* Leaflet Popup Styles */
+.leaflet-popup-content-wrapper {
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-dark);
+  padding: 4px 8px;
+}
