@@ -3,7 +3,8 @@ import type { ReactNode } from 'react'
 import type { Language, Translations } from '../translations'
 import type { Storm } from '../types'
 import { translations } from '../translations'
-import { translateStorm } from '../services/translationService'
+import { translateStorm as translateStormGroq } from '../services/translationService'
+import { translateStorm as translateStormFree } from '../services/freeTranslationService'
 
 interface LanguageContextType {
   language: Language
@@ -12,6 +13,8 @@ interface LanguageContextType {
   translatedStorm: Storm | null
   setOriginalStorm: (storm: Storm | null) => void
   isTranslating: boolean
+  translationService: 'groq' | 'free'
+  setTranslationService: (service: 'groq' | 'free') => void
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
@@ -21,14 +24,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [originalStorm, setOriginalStorm] = useState<Storm | null>(null)
   const [translatedStorm, setTranslatedStorm] = useState<Storm | null>(null)
   const [isTranslating, setIsTranslating] = useState(false)
+  const [translationService, setTranslationService] = useState<'groq' | 'free'>('free')
 
-  // Translate storm when language changes
+  // Translate storm when language changes or translation service changes
   useEffect(() => {
     if (originalStorm) {
       const translate = async () => {
         setIsTranslating(true)
         try {
-          const translated = await translateStorm(originalStorm, language)
+          // Use selected translation service
+          const translated = translationService === 'groq'
+            ? await translateStormGroq(originalStorm, language as 'vi' | 'en')
+            : await translateStormFree(originalStorm, language, 'en')
           setTranslatedStorm(translated)
         } catch (error) {
           setTranslatedStorm(originalStorm)
@@ -37,8 +44,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         }
       }
 
-      // Use Vietnamese if selected, otherwise use original (English)
-      if (language === 'vi') {
+      // Only translate if not English
+      if (language !== 'en') {
         translate()
       } else {
         setTranslatedStorm(originalStorm)
@@ -46,7 +53,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     } else {
       setTranslatedStorm(null)
     }
-  }, [originalStorm, language])
+  }, [originalStorm, language, translationService])
 
   const handleSetLanguage = useCallback((lang: Language) => {
     setLanguage(lang)
@@ -58,7 +65,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     t: translations[language],
     translatedStorm,
     setOriginalStorm: setOriginalStorm,
-    isTranslating
+    isTranslating,
+    translationService,
+    setTranslationService
   }
 
   return (
